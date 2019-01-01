@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ClassBooster">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/flashCards/ClassBooster.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
