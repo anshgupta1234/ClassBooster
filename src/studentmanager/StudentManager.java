@@ -49,7 +49,6 @@ public class StudentManager extends Application {
         gson = new Gson();
         side = 75;
         classroom = (Pane) scene.lookup("#classroom");
-        classroom.setStyle("-fx-background-image: url(/Users/ashutoshgupta/Desktop/flashCards/src/studentmanager/resources/wood.png)");
         studentButtons = new ArrayList<>();
         navMenu = (VBox) scene.lookup("#navMenu");
         if(new File("ClassroomPositions.txt").exists() && !new File("ClassroomPositions.txt").toString().equals("")){
