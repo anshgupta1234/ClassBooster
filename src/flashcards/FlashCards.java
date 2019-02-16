@@ -45,8 +45,8 @@ public class FlashCards extends Application {
         num = 0;
         questions = new ArrayList<>();
         answers = new ArrayList<>();
-        if(new File("QAndA.txt").exists() && !new File("QAndA.txt").toString().equals("")){
-            File f = new File("QAndA.txt");
+        if(new File("files/QAndA.txt").exists() && !new File("files/QAndA.txt").toString().equals("")){
+            File f = new File("files/QAndA.txt");
             LineNumberReader lnr = new LineNumberReader(new FileReader(f));
             String line;
             while((line = lnr.readLine()) != null){
@@ -63,7 +63,7 @@ public class FlashCards extends Application {
             }
         }
         else{
-            File f = new File("QAndA.txt");
+            File f = new File("files/QAndA.txt");
         }
         label = (Label) scene.lookup("#txt");
         if(questions.size() != 0)
@@ -180,7 +180,7 @@ public class FlashCards extends Application {
         try{
             String q = getAsString(questions);
             String a = getAsString(answers);
-            File f = new File("QAndA.txt");
+            File f = new File("files/QAndA.txt");
             PrintWriter pw = new PrintWriter(f);
             pw.println(q);
             pw.println(a);

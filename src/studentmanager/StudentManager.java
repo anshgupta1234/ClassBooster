@@ -61,37 +61,50 @@ public class StudentManager extends Application {
     private TextField studentInput;
     private File positionFile;
     private File studentFile;
+    private File boardTeacherFile;
     private VBox navMenu;
     private enum Mode{
         EDIT, VIEW
     }
+    private Random rand;
     private Mode currentMode;
     private double side;
     private boolean isStudentDragged;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("StudentManager.fxml"));
-        scene = new Scene(root, 900, 800);
+        scene = new Scene(root, 975, 800);
         primaryStage.setTitle("Classroom Manager");
         primaryStage.setScene(scene);
         primaryStage.show();
         gson = new Gson();
         side = 75;
         currentMode = Mode.VIEW;
+        rand = new Random();
         classroom = (Pane) scene.lookup("#classroom");
         navMenu = (VBox) scene.lookup("#navMenu");
         teacherDesk = (Button) scene.lookup("#teacherDesk");
         teacherDesk.setOnMouseDragged(e -> {
-            
             teacherDesk.setLayoutX(e.getSceneX() - teacherDesk.getWidth()/2 - 10);
             teacherDesk.setLayoutY(e.getSceneY() - teacherDesk.getHeight()/2 - 100);
         });
+        teacherDesk.setOnMouseClicked(e -> {
+            if(e.getButton() == MouseButton.PRIMARY){
+                moveVBox(teacherDesk);
+                updateBoardTeacherVBox(teacherDesk);
+            }
+        });
         board = (Button) scene.lookup("#board");
         board.setOnMouseDragged(e -> {
-            
             titledMenu.setVisible(false);
             board.setLayoutX(e.getSceneX() - board.getWidth()/2 - 5);
             board.setLayoutY(e.getSceneY() - board.getHeight()/2 - 90);
+        });
+        board.setOnMouseClicked(e -> {
+            if(e.getButton() == MouseButton.PRIMARY){
+                moveVBox(board);
+                updateBoardTeacherVBox(board);
+            }
         });
         titledMenu = (TitledPane) scene.lookup("#titledMenu");
         classroom.setOnMouseClicked(e -> {
@@ -101,8 +114,8 @@ public class StudentManager extends Application {
             }
         });
         studentButtons = new ArrayList<>();
-        if(new File("ClassroomPositions.txt").exists() && !new File("ClassroomPositions.txt").toString().equals("")){
-            positionFile = new File("ClassroomPositions.txt");
+        positionFile = new File("src/files/ClassroomPositions.txt");
+        if(positionFile.exists() && !positionFile.toString().equals("")){
             LineNumberReader positionLNR = new LineNumberReader(new FileReader(positionFile));
             String line;
             while((line = positionLNR.readLine()) != null){
@@ -117,7 +130,7 @@ public class StudentManager extends Application {
                 }
             }
         }
-        studentFile = new File("StudentJson.txt");
+        studentFile = new File("src/files/StudentJson.txt");
         LineNumberReader studentLNR = new LineNumberReader(new FileReader(studentFile));
         String studentLine;
         Type type = new TypeToken<ArrayList<String>>(){}.getType();
@@ -139,6 +152,19 @@ public class StudentManager extends Application {
                 }
             }
         }
+        boardTeacherFile = new File("src/files/BoardTeacher.txt");
+        LineNumberReader btLNR = new LineNumberReader(new FileReader(boardTeacherFile));
+        String boardStr = btLNR.readLine();
+        String teacherStr = btLNR.readLine();
+        String[] boardArg, teacherArg;
+        boardArg = boardStr.split(" ");
+        teacherArg = teacherStr.split(" ");
+        board.setLayoutX(Double.parseDouble(boardArg[0]));
+        board.setLayoutY(Double.parseDouble(boardArg[1]));
+        board.setRotate(Double.parseDouble(boardArg[2]));
+        teacherDesk.setLayoutX(Double.parseDouble(teacherArg[0]));
+        teacherDesk.setLayoutY(Double.parseDouble(teacherArg[1]));
+        teacherDesk.setRotate(Double.parseDouble(teacherArg[2]));
         addStudentButton = (Button) scene.lookup("#addStudentButton");
         studentInput = (TextField) scene.lookup("#studentInput");
         EventHandler<MouseEvent> addStudentHandler = event -> {
@@ -164,30 +190,83 @@ public class StudentManager extends Application {
         shuffle.setOnMouseClicked(e -> {
             ArrayList<String> names = new ArrayList<>(students.keySet());
             Collections.shuffle(names);
-            HashMap<Double, Button> distanceMap = new HashMap<>();
-            ArrayList<Double> distances = new ArrayList<>();
-            for (int i = 0; i < studentButtons.size(); i++) {
-                Button studentButton = studentButtons.get(i);
-                double distance = getDistanceFromBoard(studentButton);
-                distanceMap.put(distance, studentButton);
-                distances.add(distance);
+            HashMap<Double, Button> boardDistanceMap = new HashMap<>();
+            ArrayList<Double> boardDistances = new ArrayList<>();
+            for (Button studentButton : studentButtons) {
+                double distance = getDistanceFromButton(board, studentButton);
+                boardDistanceMap.put(distance, studentButton);
+                boardDistances.add(distance);
             }
-            Collections.sort(distances);
+            Collections.sort(boardDistances);
             int i = 0;
             while (i < names.size()) {
                 String name = names.get(i);
                 Student s = students.get(name);
                 if(s.isNeedFront()){
-                    distanceMap.get(distances.get(0)).setText(name);
-                    distanceMap.remove(distances.get(0));
+                    boardDistanceMap.get(boardDistances.get(0)).setText(name);
+                    boardDistanceMap.remove(boardDistances.get(0));
                     names.remove(name);
-                    distances.remove(0);
+                    boardDistances.remove(0);
                 }else{
                     i++;
                 }
             }
-            ArrayList<Button> remainingButtons = new ArrayList<>(distanceMap.values());
+            ArrayList<Button> remainingButtons = new ArrayList<>(boardDistanceMap.values());
             Collections.shuffle(remainingButtons);
+            HashMap<Double, Button> teacherDistanceMap = new HashMap<>();
+            ArrayList<Double> teacherDistances = new ArrayList<>();
+            for (Button studentButton : remainingButtons) {
+                double distance = getDistanceFromButton(teacherDesk, studentButton);
+                teacherDistanceMap.put(distance, studentButton);
+                teacherDistances.add(distance);
+            }
+            Collections.sort(teacherDistances);
+            int j = 0;
+            while (j < names.size()) {
+                String name = names.get(j);
+                Student s = students.get(name);
+                if(s.getChars().contains(Student.Characteristic.TALKATIVE)){
+                    int index = rand.nextInt(2);
+                    teacherDistanceMap.get(teacherDistances.get(index)).setText(name);
+                    teacherDistanceMap.remove(teacherDistances.get(index));
+                    names.remove(name);
+                    teacherDistances.remove(index);
+                }else{
+                    j++;
+                }
+                //Else bc removing index will put the thing down one
+            }
+            /*remainingButtons = new ArrayList<>(teacherDistanceMap.values());
+            for(int k = 0; k < remainingButtons.size(); k++){
+                Button b = remainingButtons.get(k);
+                Student s = students.get(b.getText());
+                if(s.getChars().contains(Student.Characteristic.NEEDSHELP)){
+                    HashMap<Double, Button> nearestStudents = new HashMap<>();
+                    ArrayList<Double> studentDistances = new ArrayList<>();
+                    for(Button button : remainingButtons){
+                        if(b != button){
+                            double dist = getDistanceFromButton(b, button);
+                            nearestStudents.put(dist, button);
+                            studentDistances.add(dist);
+                        }
+                    }
+                    Collections.sort(studentDistances);
+                    for(int l = 0; l < studentDistances.size(); l++){
+                        Button button = nearestStudents.get(studentDistances.get(l));
+                        Student s3 = students.get(button.getText());
+                        if(s3.getChars().contains(Student.Characteristic.SMART)){
+                            Button nearestStudent = nearestStudents.get(studentDistances.get(0));
+                            nearestStudent.setText(s3.getName());
+                            remainingButtons.remove(nearestStudent);
+                            nearestStudents.remove(studentDistances.get(0));
+                            names.remove(s3.getName());
+                            studentDistances.remove(0);
+                            k--;
+                            break;
+                        }
+                    }
+                }
+            }*/
             for (int x = 0; x < remainingButtons.size(); x++) {
                 Button button =  remainingButtons.get(x);
                 button.setText(names.get(x));
@@ -199,7 +278,6 @@ public class StudentManager extends Application {
             alert.setContentText("Are you sure you want to print?");
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){
-                
                 addStudentButton.setVisible(false);
                 saveClass.setVisible(false);
                 studentInput.setVisible(false);
@@ -260,12 +338,6 @@ public class StudentManager extends Application {
         modeButton.setText("View");
         modeButton.setGraphic(viewImage);
         viewItem.setSelected(true);
-        board.setOnMouseClicked(e -> {
-            if(e.getButton() == MouseButton.PRIMARY){
-                moveVBox(board);
-                updateBoardVBox();
-            }
-        });
     }
 
     public void updateStudentVBox(Student s){
@@ -325,6 +397,8 @@ public class StudentManager extends Application {
         line1.setEndX(navMenu.getWidth()-40);
         HBox charBox1 = new HBox(makeCharBox(s, "Smart", Student.Characteristic.SMART), makeCharBox(s, "Needs Help", Student.Characteristic.NEEDSHELP));
         HBox charBox2 = new HBox(makeCharBox(s, "Talkative", Student.Characteristic.TALKATIVE), makeCharBox(s, "Shy", Student.Characteristic.SHY));
+        HBox charBox3 = new HBox(makeCharBox(s, "Focused", Student.Characteristic.FOCUSED), makeCharBox(s, "Unfocused", Student.Characteristic.UNFOCUSED));
+        HBox charBox4 = new HBox(makeCharBox(s, "Emotional", Student.Characteristic.EMOTIONAL));
         Line line2 = new Line();
         line2.setEndX(navMenu.getWidth()-40);
         CheckBox nf = new CheckBox(("Needs Front"));
@@ -336,37 +410,37 @@ public class StudentManager extends Application {
                 }
             });
         nf.setPadding(new Insets(10, 0, 0, 0));
-        navMenu.getChildren().addAll(line1, makeBoldLabel("Characteristics:"), charBox1, charBox2, line2, nf);
+        navMenu.getChildren().addAll(line1, makeBoldLabel("Characteristics:"), charBox1, charBox2, charBox3, charBox4, line2, nf);
         titledMenu.setVisible(true);
         
     }
 
-    public void updateBoardVBox(){
+    public void updateBoardTeacherVBox(Button b){
         navMenu.getChildren().clear();
+        titledMenu.setText(b.getText());
         DecimalFormat df = new DecimalFormat("#.##");
         Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(360);
         slider.setMaxWidth(200);
-        slider.setValue(Double.parseDouble(df.format(board.getRotate())));
-        TextField textField = new TextField(Double.toString(board.getRotate()));
+        slider.setValue(Double.parseDouble(df.format(b.getRotate())));
+        TextField textField = new TextField(Double.toString(b.getRotate()));
         textField.setPrefWidth(100);
         slider.valueProperty().addListener(observable -> {
             textField.setText(df.format(slider.getValue()));
-            board.setRotate(slider.getValue());
+            b.setRotate(slider.getValue());
         });
         textField.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER)){
                 double rotation = Double.parseDouble(textField.getText());
                 slider.setValue(rotation);
-                board.setRotate(rotation);
+                b.setRotate(rotation);
             }
         });
         HBox hBox = new HBox(slider, textField);
         hBox.setSpacing(20);
         navMenu.getChildren().addAll(hBox);
         titledMenu.setVisible(true);
-        
     }
 
     private void moveVBox(Node node){
@@ -430,21 +504,17 @@ public class StudentManager extends Application {
             for(Button btn : studentButtons){
                 pw.println(btn.getText()+"☈"+btn.getLayoutX()+"☈"+btn.getLayoutY());
             }
-            pw.println();
-            pw.println(board.getLayoutX()+"☈"+board.getLayoutY()+"☈"+board.getRotate());
-            pw.println(teacherDesk.getLayoutX()+"☈"+teacherDesk.getLayoutY()+"☈"+teacherDesk.getRotate());
             pw.close();
         } catch (Exception ex){
-            positionFile = new File("ClassroomPositions.txt");
-            try{
-                PrintWriter pw = new PrintWriter(positionFile);
-                for(Button btn : studentButtons){
-                    pw.println(btn.getText()+"☈"+btn.getLayoutX()+"☈"+btn.getLayoutY());
-                }
-                pw.close();
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
+            ex.printStackTrace();
+        }
+        try{
+            PrintWriter pw2 = new PrintWriter(boardTeacherFile);
+            pw2.println(board.getLayoutX()+" "+board.getLayoutY()+" "+board.getRotate());
+            pw2.println(teacherDesk.getLayoutX()+" "+teacherDesk.getLayoutY()+" "+teacherDesk.getRotate());
+            pw2.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -454,29 +524,35 @@ public class StudentManager extends Application {
                 titledMenu.setVisible(false);
                 btn.setLayoutX(e.getSceneX() - side/2 - 10);
                 btn.setLayoutY(e.getSceneY() - side/2 - 100);
-                if(btn.getLayoutX() < 10 || btn.getLayoutX() > scene.getWidth()-10 || btn.getLayoutY() < 0 || btn.getLayoutY() > scene.getHeight()){
-                    students.forEach((name, student) -> {
-                        student.getFriends().remove(btn.getText());
-                        student.getWorkWith().remove(btn.getText());
-                        student.getDislike().remove(btn.getText());
-                    });
-                    students.remove(btn.getText());
-                    studentButtons.remove(btn);
-                    classroom.getChildren().remove(btn);
+                double btnX = btn.getBoundsInParent().getMaxX();
+                double btnY = btn.getBoundsInParent().getMaxY();
+                if(btnX - 75 < 0 || btnX > classroom.getWidth() || btnY - 75 < 0 || btnY > classroom.getHeight()){
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setContentText("Are you sure you want to delete the student?");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if(result.get() == ButtonType.OK){
+                        students.forEach((name, student) -> {
+                            student.getFriends().remove(btn.getText());
+                            student.getWorkWith().remove(btn.getText());
+                            student.getDislike().remove(btn.getText());
+                        });
+                        students.remove(btn.getText());
+                        studentButtons.remove(btn);
+                        classroom.getChildren().remove(btn);
+                    }
+                    else{
+                        btn.setLayoutX(400);
+                        btn.setLayoutY(300);
+                    }
                 }
                 isStudentDragged = true;
             }
         });
-
         return btn;
     }
 
-    private double getDistanceFromBoard(Button studentButton){
-        return Math.sqrt(Math.pow(board.getLayoutX() - studentButton.getLayoutX(), 2) + Math.pow(board.getLayoutY() - studentButton.getLayoutY(), 2));
-    }
-
-    private double getDistanceFromTeacher(Button studentButton){
-        return Math.sqrt(Math.pow(teacherDesk.getLayoutX() - studentButton.getLayoutX(), 2) + Math.pow(teacherDesk.getLayoutY() - studentButton.getLayoutY(), 2));
+    private double getDistanceFromButton(Button from, Button to){
+        return Math.sqrt(Math.pow(from.getLayoutX() - to.getLayoutX(), 2) + Math.pow(from.getLayoutY() - to.getLayoutY(), 2));
     }
 
     private CheckBox makeCharBox(Student student, String s, Student.Characteristic ch){
@@ -492,7 +568,6 @@ public class StudentManager extends Application {
     }
 
     private Text makeBoldLabel(String s){
-        Label label = new Label(s);
         Text text = new Text(s);
         text.setStyle("-fx-font-weight: bold");
         return text;
@@ -507,5 +582,4 @@ public class StudentManager extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }

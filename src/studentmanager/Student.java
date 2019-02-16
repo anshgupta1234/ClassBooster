@@ -6,14 +6,17 @@ import java.util.HashMap;
 class Student {
 
     private String name;
-    private ArrayList<String> chars;
-    private ArrayList<Student> friends;
-    private ArrayList<Student> workWith;
-    private ArrayList<Student> dislike;
+    private ArrayList<Characteristic> chars;
+    private ArrayList<String> friends;
+    private ArrayList<String> workWith;
+    private ArrayList<String> dislike;
+    public enum Characteristic{
+        SMART, NEEDSHELP, TALKATIVE, SHY, EMOTIONAL, UNFOCUSED, FOCUSED
+    }
     private boolean needFront;
 
-    public Student(String name, ArrayList<String> chars, ArrayList<Student> friends,
-                   ArrayList<Student> workWith, ArrayList<Student> dislike, boolean needFront){
+    public Student(String name, ArrayList<Characteristic> chars, ArrayList<String> friends,
+                   ArrayList<String> workWith, ArrayList<String> dislike, boolean needFront){
         this.name = name;
         this.chars = chars;
         this.dislike = dislike;
@@ -35,11 +38,11 @@ class Student {
         return name;
     }
 
-    public ArrayList<Student> getDislike() {
+    public ArrayList<String> getDislike() {
         return dislike;
     }
 
-    public ArrayList<Student> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
@@ -47,15 +50,15 @@ class Student {
         return needFront;
     }
 
-    public ArrayList<Student> getWorkWith() {
+    public ArrayList<String> getWorkWith() {
         return workWith;
     }
 
-    public void setChars(ArrayList<String> chars) {
+    public void setChars(ArrayList<Characteristic> chars) {
         this.chars = chars;
     }
 
-    public void changeChar(String ch, boolean change){
+    public void changeChar(Characteristic ch, boolean change){
         if(change && !chars.contains(ch)){
             chars.add(ch);
         }
@@ -64,15 +67,15 @@ class Student {
         }
     }
 
-    public ArrayList<String> getChars() {
+    public ArrayList<Characteristic> getChars() {
         return chars;
     }
 
-    public void setDislike(ArrayList<Student> dislike) {
+    public void setDislike(ArrayList<String> dislike) {
         this.dislike = dislike;
     }
 
-    public void setFriends(ArrayList<Student> friends) {
+    public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
     }
 
@@ -84,7 +87,7 @@ class Student {
         this.needFront = needFront;
     }
 
-    public void setWorkWith(ArrayList<Student> workWith) {
+    public void setWorkWith(ArrayList<String> workWith) {
         this.workWith = workWith;
     }
 
@@ -92,16 +95,29 @@ class Student {
         return chars.contains(ch);
     }
 
-    public void addFriend(Student s){
+    public void addFriend(String s){
         friends.add(s);
     }
 
-    public void addDislikes(Student s){
+    public void removeFriend(String s){
+        friends.remove(s);
+    }
+
+    public void addDislikes(String s){
         dislike.add(s);
     }
 
-    public void addWorkWith(Student s){
+    public void removeDislikes(String s) {
+        dislike.remove(s);
+    }
+
+    public void addWorkWith(String s){
         workWith.add(s);
     }
+
+    public void removeWorkWith(String s) {
+        workWith.remove(s);
+    }
+
 }
 

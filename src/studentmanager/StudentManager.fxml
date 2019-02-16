@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentmanager.StudentManager">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentmanager.StudentManager">
    <children>
-      <Pane fx:id="classroom" prefHeight="700.0" prefWidth="900.0">
+      <Pane fx:id="classroom" layoutX="10.0" layoutY="84.0" prefHeight="620.0" prefWidth="880.0" style="-fx-border-color: black; -fx-background-image: url(&quot;/studentmanager/resources/floor.png&quot;);">
          <children>
-            <TextField fx:id="studentInput" layoutX="317.0" layoutY="42.0" />
-            <Button fx:id="save" layoutX="400.0" layoutY="620.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Save" />
-            <Button fx:id="addStudentButton" layoutX="507.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" text="Add" />
-            <Label layoutX="325.0" layoutY="10.0" text="Welcome Back, Mr. Lee">
-               <font>
-                  <Font name="Chalkduster" size="19.0" />
-               </font>
-            </Label>
+            <Button fx:id="teacherDesk" layoutX="-21.0" layoutY="76.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="109.0" rotate="270.0" style="-fx-background-image: url(&quot;/studentmanager/resources/wood.png&quot;); -fx-border-color: black;" text="Teacher Desk" textFill="WHITE" />
+            <Button fx:id="board" layoutX="310.0" layoutY="14.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="250.0" style="-fx-background-color: gray; -fx-border-color: black; -fx-font-weight: bold;" text="Board" />
          </children></Pane>
-      <VBox fx:id="navMenu" prefHeight="700.0" prefWidth="311.0" style="-fx-background-color: #90ee90;" visible="false" />
+      <Button fx:id="save" layoutX="233.0" layoutY="725.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Save" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="200.0" />
+      <Button fx:id="shuffle" layoutX="408.0" layoutY="725.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Shuffle" AnchorPane.bottomAnchor="25.0" />
+      <Button fx:id="print" layoutX="566.0" layoutY="725.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Print" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="200.0" />
+      <Label layoutX="342.0" layoutY="14.0" text="Welcome Back, Mr. Lee" textFill="WHITE">
+         <font>
+            <Font name="Chalkduster" size="19.0" />
+         </font>
+      </Label>
+      <TextField fx:id="studentInput" layoutX="342.0" layoutY="43.0" prefHeight="27.0" prefWidth="167.0" />
+      <Button fx:id="addStudentButton" layoutX="532.0" layoutY="43.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" text="Add" />
+      <MenuButton fx:id="modeButton" layoutX="650.0" layoutY="41.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="109.0" text="Mode" wrapText="true">
+        <items>
+        </items>
+      </MenuButton>
+      <TitledPane fx:id="titledMenu" animated="false" prefHeight="800.0" prefWidth="394.0" text="untitled" visible="false">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <VBox fx:id="navMenu" layoutX="1.0" prefHeight="775.0" prefWidth="394.0" spacing="10.0" style="-fx-background-color: #90ee90;">
+                     <padding>
+                        <Insets left="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
    </children>
 </AnchorPane>

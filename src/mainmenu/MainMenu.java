@@ -1,5 +1,6 @@
 package mainmenu;
 
+import curver.Curver;
 import flashcards.FlashCards;
 import studentmanager.StudentManager;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ public class MainMenu extends Application {
 
     Pane flashCards;
     Pane studentManager;
+    Pane curver;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -47,9 +49,9 @@ public class MainMenu extends Application {
             if(event.getButton() == MouseButton.PRIMARY){
                 try{
                     primaryStage.setMinWidth(900);
-                    primaryStage.setMinHeight(700);
+                    primaryStage.setMinHeight(800);
                     primaryStage.setMaxWidth(900);
-                    primaryStage.setMaxHeight(700);
+                    primaryStage.setMaxHeight(800);
                     new StudentManager().start(primaryStage);
                 }catch (Exception e){
                     e.printStackTrace();
@@ -57,6 +59,20 @@ public class MainMenu extends Application {
             }
         };
         studentManager.addEventFilter(MouseEvent.MOUSE_CLICKED, smHandler);
+        curver = (Pane) scene.lookup("#curver");
+        curver.setOnMouseClicked(event -> {
+            if(event.getButton() == MouseButton.PRIMARY){
+                try{
+                    primaryStage.setMinWidth(975);
+                    primaryStage.setMinHeight(800);
+                    primaryStage.setMaxWidth(975);
+                    primaryStage.setMaxHeight(800);
+                    new Curver().start(primaryStage);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     public static void main(String[] args) {
         launch(args);
