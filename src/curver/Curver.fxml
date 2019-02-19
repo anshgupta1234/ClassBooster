@@ -29,8 +29,86 @@
             <TextArea fx:id="gradeInput" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
             <HBox prefHeight="30.0" prefWidth="320.0" spacing="20.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Num. of test points:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Num. of test points:">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Text>
                   <TextField fx:id="pointInput" prefHeight="27.0" prefWidth="120.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="30.0" layoutY="277.0" prefHeight="8.0" prefWidth="320.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min. Grade for A:" wrappingWidth="133.76416015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="a" prefHeight="28.0" prefWidth="49.0" text="90">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" wrappingWidth="12.76416015625">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox layoutX="30.0" layoutY="321.0" prefHeight="8.0" prefWidth="320.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min. Grade for B:" wrappingWidth="133.76416015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="b" prefHeight="28.0" prefWidth="49.0" text="80">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" wrappingWidth="12.76416015625">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox layoutX="30.0" layoutY="630.0" prefHeight="8.0" prefWidth="320.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min. Grade for C:" wrappingWidth="133.76416015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="c" prefHeight="28.0" prefWidth="49.0" text="70">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" wrappingWidth="12.76416015625">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox layoutX="30.0" layoutY="407.0" prefHeight="8.0" prefWidth="320.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min. Grade for D:" wrappingWidth="133.76416015625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="d" prefHeight="28.0" prefWidth="49.0" text="60">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" wrappingWidth="12.76416015625">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
                </children>
             </HBox>
             <Button fx:id="enterBtn" mnemonicParsing="false" text="Enter" />

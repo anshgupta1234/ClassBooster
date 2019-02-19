@@ -272,6 +272,7 @@ public class StudentManager extends Application {
                 button.setText(names.get(x));
             }
         });
+        
         print = (Button) scene.lookup("#print");
         print.setOnMouseClicked(e -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

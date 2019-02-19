@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainPane" prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rcgen.RCGeneratorController">
+   <children>
+      <Pane layoutX="450.0" prefHeight="750.0" prefWidth="449.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="208.0" layoutY="14.0" text="Word Bank">
+               <font>
+                  <Font name="Avenir Roman" size="16.0" />
+               </font>
+            </Label>
+            <Pane fx:id="posPane" layoutX="25.0" layoutY="57.0" prefHeight="215.0" prefWidth="400.0" style="-fx-border-color: black;">
+               <children>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefWidth="100.0" text="Nice">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="14.0" prefWidth="100.0" text="Helpful">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="14.0" prefWidth="100.0" text="Smart">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="69.0" prefWidth="100.0" text="Hardworking">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="124.0" prefWidth="100.0" text="Outstanding">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="69.0" prefWidth="100.0" text="Capable">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="69.0" prefWidth="100.0" text="Caring">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="124.0" prefWidth="100.0" text="Thorough">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="124.0" prefWidth="100.0" text="Independent">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="pi1" layoutX="14.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="pi2" layoutX="150.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="pi3" layoutX="286.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children></Pane>
+            <Pane fx:id="negPane" layoutX="25.0" layoutY="305.0" prefHeight="215.0" prefWidth="400.0" style="-fx-border-color: black;">
+               <children>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefWidth="100.0" text="Emerging" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="14.0" prefWidth="100.0" text="Struggling" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="14.0" prefHeight="35.0" prefWidth="100.0" text="Experiencing Difficulty" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Avenir Roman" size="11.5" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="69.0" prefWidth="100.0" text="Hardworking" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="124.0" prefWidth="100.0" text="Outstanding" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="69.0" prefWidth="100.0" text="Capable" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="69.0" prefWidth="100.0" text="Caring" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="150.0" layoutY="124.0" prefWidth="100.0" text="Thorough" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="286.0" layoutY="124.0" prefWidth="100.0" text="Independent" textAlignment="CENTER">
+                     <font>
+                        <Font name="Avenir Roman" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="14.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="150.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="286.0" layoutY="174.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="+">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Button fx:id="generate" layoutX="93.0" layoutY="586.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="231.0" text="Generate">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Text fill="#3c3c3c" layoutX="25.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Positive">
+               <font>
+                  <Font name="Avenir Oblique" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#3c3c3c" layoutX="25.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Negative">
+               <font>
+                  <Font name="Avenir Oblique" size="14.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <TextArea fx:id="result" layoutX="28.0" layoutY="142.0" prefHeight="511.0" prefWidth="400.0" wrapText="true" AnchorPane.leftAnchor="25.0" />
+      <Text layoutX="32.0" layoutY="681.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tip: Even with struggling students, it is good to include a few positive words." wrappingWidth="392.21875" />
+      <Text layoutX="137.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Card Generator">
+         <font>
+            <Font name="American Typewriter" size="16.0" />
+         </font>
+      </Text>
+      <RadioButton fx:id="maleChoice" layoutX="32.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Male" />
+      <RadioButton fx:id="femaleChoice" layoutX="125.0" layoutY="110.0" mnemonicParsing="false" text="Female" />
+   </children>
+</AnchorPane>

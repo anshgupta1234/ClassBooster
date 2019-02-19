@@ -2,8 +2,10 @@ package curver;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
@@ -28,6 +30,8 @@ public class Curver extends Application {
 
     private Scene scene;
     private BarChart<String, Number> bc;
+    private HashMap<String, TextField> minGradeInput;
+    private HashMap<String, Double> minGrades;
     private PieChart pc;
     private Pane pcPane;
     private Pane scPane;
@@ -69,18 +73,14 @@ public class Curver extends Application {
         pc.setLegendVisible(false);
         gradeInput = (TextArea) scene.lookup("#gradeInput");
         gradeInput.setText(exCase);
-        gradeInput.textProperty().addListener(((observable, oldValue, newValue) -> {
+        gradeInput.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue.matches("\\d+.\\d+?,?")){
                 gradeInput.setText(newValue.replaceAll("[^\\d+.\\d+?,?]", ""));
             }
-        }));
+        });
         pointInput = (TextField) scene.lookup("#pointInput");
         pointInput.setText("40");
-        pointInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("\\d+.\\d+?")){
-                pointInput.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
-            }
-        });
+        pointInput.textProperty().addListener(numOnly(pointInput));
         avgText = (Text) scene.lookup("#avg");
         enterBtn = (Button) scene.lookup("#enterBtn");
         enterBtn.setOnMouseClicked(e -> {
@@ -132,11 +132,7 @@ public class Curver extends Application {
             if(event.getCode() == KeyCode.ENTER)
                 addCurve();
         });
-        addCurveInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("\\d+.\\d+?")){
-                addCurveInput.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
-            }
-        });
+        addCurveInput.textProperty().addListener(numOnly(addCurveInput));
         multiplyCurveInput = (TextField) scene.lookup("#multiplyCurveInput");
         multiplyCurveBtn = (Button) scene.lookup("#multiplyCurveBtn");
         multiplyCurveBtn.setOnMouseClicked(e -> {
@@ -147,25 +143,32 @@ public class Curver extends Application {
             if(e.getCode() == KeyCode.ENTER)
                 addCurve();
         });
-        multiplyCurveInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("\\d+.\\d+?")){
-                multiplyCurveInput.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
-            }
-        });
+        multiplyCurveInput.textProperty().addListener(numOnly(multiplyCurveInput));
         desAvgInput = (TextField) scene.lookup("#desAvgInput");
         desAvgBtn = (Button) scene.lookup("#desAvgBtn");
         desAvgInput.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER)
                 desAvg();
         });
-        desAvgInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches("\\d+.\\d+?")){
-                desAvgInput.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
-            }
-        });
+        desAvgInput.textProperty().addListener(numOnly(desAvgInput));
         desAvgBtn.setOnMouseClicked(e -> {
             if(e.getButton() == MouseButton.PRIMARY)
                 desAvg();
+        });
+        minGradeInput = new HashMap<>();
+        minGrades = new HashMap<>();
+        minGradeInput.put("A", (TextField) scene.lookup("#a"));
+        minGradeInput.put("B", (TextField) scene.lookup("#b"));
+        minGradeInput.put("C", (TextField) scene.lookup("#c"));
+        minGradeInput.put("D", (TextField) scene.lookup("#d"));
+        minGradeInput.forEach((letter, input) -> {
+            minGrades.put(letter, Double.parseDouble(input.getText()));
+            input.textProperty().addListener((observable, oldValue, newValue) -> {
+                if(!newValue.matches("\\d+.\\d+?")){
+                    input.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
+                }
+                minGrades.put(letter, Double.parseDouble(input.getText()));
+            });
         });
     }
 
@@ -193,16 +196,32 @@ public class Curver extends Application {
     }
 
     private String getGradeLetter(Double grade){
-        if(grade >= 90)
+        if(grade >= minGrades.get("A"))
             return "A";
-        else if(grade >= 80)
+        else if(grade >= minGrades.get("B"))
             return "B";
-        else if(grade >= 70)
+        else if(grade >= minGrades.get("C"))
             return "C";
-        else if(grade >= 60)
+        else if(grade >= minGrades.get("D"))
             return "D";
         else
             return "F";
+    }
+
+    private ChangeListener<String> numOnly(TextField textField){
+        return (observable, oldValue, newValue) -> {
+            if(!newValue.matches("\\d+.\\d+?")){
+                textField.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
+            }
+        };
+    }
+
+    private ChangeListener<String> numOnly(TextArea textArea){
+        return (observable, oldValue, newValue) -> {
+            if(!newValue.matches("\\d+.\\d+?")){
+                textArea.setText(newValue.replaceAll("[^\\d+.\\d+?]", ""));
+            }
+        };
     }
 
     public ArrayList<Double> getPercentGrades(ArrayList<Double> grades, double divisor){
@@ -271,14 +290,16 @@ public class Curver extends Application {
         if(!desAvgInput.getText().isEmpty()){
             ArrayList<Double> grades = getGrades();
             gradeInput.setText("");
+            String txt = "";
             double desAvg = Double.parseDouble(desAvgInput.getText());
             double percent = (getGradeAvg(grades)*100)/Double.parseDouble(pointInput.getText());
             double factor = desAvg/percent;
             for (int i = 0; i < grades.size(); i++) {
                 grades.set(i, Math.round(grades.get(i)*factor*10.0)/10.0);
-                gradeInput.setText(gradeInput.getText()+grades.get(i)+",");
+                txt += grades.get(i)+",";
             }
             double points = Double.parseDouble(pointInput.getText());
+            gradeInput.setText(txt);
             grades = getPercentGrades(grades, points);
             updateChart(grades);
         }

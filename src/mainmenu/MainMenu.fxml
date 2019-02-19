@@ -37,7 +37,18 @@
                </children>
             </Pane>
             <Pane layoutX="712.0" layoutY="36.0" prefHeight="158.0" prefWidth="156.0" style="-fx-background-color: #3498db;" />
-            <Pane layoutX="32.0" layoutY="194.0" prefHeight="158.0" prefWidth="156.0" style="-fx-background-color: #f1c40f;" />
+            <Pane layoutX="32.0" layoutY="194.0" prefHeight="158.0" prefWidth="156.0" style="-fx-background-color: #f1c40f;">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="145.0" layoutX="22.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/reportcard.png" />
+                     </image></ImageView>
+                  <Text layoutX="22.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Card Generator" textAlignment="CENTER" wrappingWidth="112.00000271201134">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
             <Pane layoutX="712.0" layoutY="194.0" prefHeight="158.0" prefWidth="156.0" style="-fx-background-color: #9b59b6;" />
             <Pane fx:id="curver" layoutX="449.0" layoutY="194.0" prefHeight="158.0" prefWidth="263.0" style="-fx-background-color: #e67e22;">
                <children>
